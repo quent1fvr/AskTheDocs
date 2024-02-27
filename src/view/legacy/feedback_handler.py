@@ -1,7 +1,9 @@
 
+
 import logging
 import streamlit as st
 from src.view.query_handler import SourceDisplay
+
 class FeedbackHandler:
     @staticmethod
     def handle_feedback(feedback_type, feedback_content=""):

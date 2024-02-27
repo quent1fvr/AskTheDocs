@@ -1,4 +1,4 @@
-# Convert table into appropriate fromat
+
 
 def table_converter(table):
     table_string = ''

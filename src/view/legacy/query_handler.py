@@ -28,6 +28,7 @@ class SourceDisplay:
                 for index, (source_index, title, score, content) in enumerate(st.session_state['sources_info']):
                     st.markdown(f"**Source {source_index}: {title}** (score = {score})")
                     st.text_area(f"source_content_{index}", value=content, height=100, disabled=True, key=f"source_content_{index}")
+   
     @staticmethod
     def get_sources_contents():
         return [source_content for _, _, _, source_content in st.session_state['sources_info']]

@@ -10,7 +10,6 @@ import json
 import time
 import logging
 from chromadb.utils import embedding_functions  # Replace with your actual module name
-from config import dict_of_folder_path
 
 
 
@@ -32,10 +31,12 @@ def remove_folder(folder_name, Dict_of_folders):
     save_folders(Dict_of_folders)
 
 def load_folders():
+    dict_of_folder_path =os.getenv("FOLDERS_PATH")
     with open(dict_of_folder_path, 'r') as file:
         return json.load(file)
 
 def save_folders(Dict_of_folders):
+    dict_of_folder_path = os.getenv("FOLDERS_PATH")
     with open(dict_of_folder_path, 'w') as file:
         json.dump(Dict_of_folders, file)
 

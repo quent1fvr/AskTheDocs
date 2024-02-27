@@ -1,6 +1,6 @@
 import json
 import os
-dict_of_folders_path = os.getenv("DICT_OF_FOLDER_PATH")
+dict_of_folders_path = os.getenv("FOLDERS_PATH")
 
 class FolderManager:
     @staticmethod
@@ -12,6 +12,8 @@ class FolderManager:
     @staticmethod
     def save_folders(folders):
         """Save folders to a JSON file."""
+        dict_of_folders_path = os.getenv("FOLDERS_PATH")
+
         with open(dict_of_folders_path, 'w') as file:
             json.dump(folders, file)
 

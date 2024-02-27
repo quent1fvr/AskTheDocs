@@ -54,26 +54,11 @@ class Chatbot:
         sources_contents = [f"Paragraph title : {s.title}\n-----\n{s.content}" if s.title else f"Paragraph {s.index}\n-----\n{s.content}" for s in block_sources]
         context = '\n'.join(sources_contents)
         i = 1
-        while (len(context) + len(histo_conversation) > 15000) and i < len(sources_contents):
+        while (len(context) + len(histo_conversation) < 15000) and i < len(sources_contents):
             context = "\n".join(sources_contents[:-i])
             i += 1
-        print("Query: ", query, ", Type: ", type(query))
-        if isinstance(query, (list, dict)):
-            print("Length of Query: ", len(query))
-
-        print("Histo: ", histo_conversation, ", Type: ", type(histo_conversation))
-        if isinstance(histo_conversation, (list, dict)):
-            print("Length of Histo: ", len(histo_conversation))
-
-        print("Context: ", context, ", Type: ", type(context))
-        if isinstance(context, (list, dict)):
-            print("Length of Context: ", len(context))
-
-        print("Language: ", language_of_query, ", Type: ", type(language_of_query))
-        if isinstance(language_of_query, (list, dict)):
-            print("Length of Language: ", len(language_of_query)) 
         
-        answer = self.llm.generate_paragraph_v2(query=query, histo=histo_conversation, context=context, language=language_of_query)   
+        answer = self.llm.generate_paragraph_v2(query=query, history=histo_conversation, context=context, language=language_of_query)   
         answer = self._clean_chatgpt_answer(answer)
         timeend  = time.time()
         exec_time = timeend - timestart
@@ -81,8 +66,6 @@ class Chatbot:
         logging.info(f"Collection: {collection.name}   , Query: {query} , Answer: {answer},  Sources: {sources_contents}", extra={'category': 'Query', 'elapsed_time':exec_time})
 
         return answer, block_sources
-
-    
 
     @staticmethod
     def  _select_best_sources(sources: [Block], delta_1_2=0.15, delta_1_n=0.3, absolute=1.2, alpha=0.9) -> [Block]:
@@ -156,6 +139,9 @@ class Chatbot:
                 print("Database is empty")
                 # Use input_doc_path here
                 doc = Doc(path=input_doc_path, original_file_name=original_file_name, include_images=include_images_, actual_first_page=actual_page_start)
+                print("---------------")
+                print(collection)
+                print("---------------")
 
                 retriever = Retriever(doc.container, collection=collection, llmagent=self.llm)
             else:
